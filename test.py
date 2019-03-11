@@ -9,7 +9,8 @@ from werkzeug_encryptedcookie import EncryptedCookie, SecureEncryptedCookie
 
 class EncruptedCookieTest(unittest.TestCase):
     Cookie = EncryptedCookie
-    RawCookie = type('RawCookie', (Cookie,), {'quote_base64': False})
+    class RawCookie(Cookie):
+        quote_base64 = False
 
     def test_dumps_loads(self):
         for case in [{'a': 'b'}, {'a': u'próba'}, {u'próba': '123'}]:
@@ -83,7 +84,8 @@ class EncruptedCookieTest(unittest.TestCase):
 
 class SecureEncryptedCookieTest(EncruptedCookieTest):
     Cookie = SecureEncryptedCookie
-    RawCookie = type('RawCookie', (Cookie,), {'quote_base64': False})
+    class RawCookie(Cookie):
+        quote_base64 = False
 
     def test_unsigned(self):
         key, case = b'my little key', b'{"a": "pr\xc3\xb3ba"}'
